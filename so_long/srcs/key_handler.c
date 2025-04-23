@@ -3,85 +3,55 @@
 /*                                                        :::      ::::::::   */
 /*   key_handler.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: williamguerreiro <williamguerreiro@stud    +#+  +:+       +#+        */
+/*   By: willda-s <willda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 23:39:25 by willda-s          #+#    #+#             */
-/*   Updated: 2025/04/15 23:21:46 by williamguer      ###   ########.fr       */
+/*   Updated: 2025/04/23 19:21:18 by willda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/so_long.h"
+#include "so_long.h"
 
-int keyhandler(t_data *data, int keycode)
+int	keyhandler(int keycode, t_data *data)
 {
 	if (keycode == XK_Escape)
-	{
-		mlx_destroy_window(data->mlx.ptr, data->mlx.win);
-		exit(0);
-	}
+		exitmlx(data, "ESCAPE\n", true);
 	else if (keycode == XK_Up || keycode == XK_w)
-		move_up(data);
+		move(data, -1, 0);
 	else if (keycode == XK_Down || keycode == XK_s)
-		move_down(data);
+		move(data, 1, 0);
 	else if (keycode == XK_Left || keycode == XK_a)
-		move_left(data);
+		move(data, 0, -1);
 	else if (keycode == XK_Right || keycode == XK_d)
-		move_right(data);
-	else
-		ft_printf("Error\n Invalid key\n");
-	check_exit(data);	
+		move(data, 0, 1);
 	return (0);
 }
 
-void move_up(t_data *data)
+void	move(t_data *data, int incry, int incrx)
 {
-	if (data->map.map[data->map.player_x - 1][data->map.player_y] != '1')
+	char		nextpos;
+	static int	mouvment = 0;
+
+	nextpos = data->map.map[data->map.player_y + incry][data->map.player_x
+		+ incrx];
+	if (nextpos != '1')
 	{
-		if (data->map.map[data->map.player_x - 1][data->map.player_y] == 'C')
+		if (nextpos == 'E')
+		{
+			if (data->map.collectibles == 0)
+			{
+				ft_printf("%d\n", ++mouvment);
+				exitmlx(data, "GG\n", true);
+			}
+			else
+				return ;
+		}
+		if (nextpos == 'C')
 			data->map.collectibles--;
-		data->map.map[data->map.player_x][data->map.player_y] = '0';
-		data->map.player_x--;
-		data->map.map[data->map.player_x][data->map.player_y] = 'P';
-	}
-}
-void move_down(t_data *data)
-{
-	if (data->map.map[data->map.player_x + 1][data->map.player_y] != '1')
-	{
-		if (data->map.map[data->map.player_x + 1][data->map.player_y] == 'C')
-			data->map.collectibles--;
-		data->map.map[data->map.player_x][data->map.player_y] = '0';
-		data->map.player_x++;
-		data->map.map[data->map.player_x][data->map.player_y] = 'P';
-	}
-}
-void move_left(t_data *data)
-{
-	if (data->map.map[data->map.player_x][data->map.player_y - 1] != '1')
-	{
-		if (data->map.map[data->map.player_x][data->map.player_y - 1] == 'C')
-			data->map.collectibles--;
-		data->map.map[data->map.player_x][data->map.player_y] = '0';
-		data->map.player_y--;
-		data->map.map[data->map.player_x][data->map.player_y] = 'P';
-	}
-}
-void move_right(t_data *data)
-{
-	if (data->map.map[data->map.player_x][data->map.player_y + 1] != '1')
-	{
-		if (data->map.map[data->map.player_x][data->map.player_y + 1] == 'C')
-			data->map.collectibles--;
-		data->map.map[data->map.player_x][data->map.player_y] = '0';
-		data->map.player_y++;
-		data->map.map[data->map.player_x][data->map.player_y] = 'P';
-	}
-}
-void check_exit(t_data *data)
-{
-	if (data->map.collectibles == 0)
-	{
-		mlx_destroy_window(data->mlx.ptr, data->mlx.win);
-		exit(0);
+		data->map.map[data->map.player_y][data->map.player_x] = '0';
+		data->map.player_y += incry;
+		data->map.player_x += incrx;
+		data->map.map[data->map.player_y][data->map.player_x] = 'P';
+		ft_printf("%d\n", ++mouvment);
 	}
 }

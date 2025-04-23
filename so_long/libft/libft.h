@@ -6,13 +6,15 @@
 /*   By: willda-s <willda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 18:43:49 by willda-s          #+#    #+#             */
-/*   Updated: 2025/01/22 23:53:35 by willda-s         ###   ########.fr       */
+/*   Updated: 2025/04/23 18:16:58 by willda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
+# include "gnl/get_next_line.h"
+# include "ft_printf/ft_printf.h"
 # include <limits.h>
 # include <stdbool.h>
 # include <stdint.h>

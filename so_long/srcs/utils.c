@@ -6,20 +6,18 @@
 /*   By: willda-s <willda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:25:12 by willda-s          #+#    #+#             */
-/*   Updated: 2025/04/15 18:05:52 by willda-s         ###   ########.fr       */
+/*   Updated: 2025/04/23 21:15:04 by willda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/so_long.h"
+#include "so_long.h"
 
-void free_map(t_data *data)
+void	free_map(t_data *data)
 {
-	int i;
-	int len;
+	size_t	i;
 
 	i = 0;
-	len = count_line(*data);
-	while(i < len)
+	while (i < data->map.width)
 	{
 		free(data->map.map[i]);
 		i++;
@@ -27,31 +25,36 @@ void free_map(t_data *data)
 	free(data->map.map);
 }
 
-void print_map(t_data data)
+void	free_and_exit(t_data *data, char *err)
 {
-	int i;
-	int len;
-
-	i = 0;
-	len = count_line(data);
-	while(i < len)
-	{
-		ft_printf("%s\n", data.map.map[i]);
-		i++;
-	}
+	if (!data->map.map || !data->map.map[0])
+		free(data->map.map);
+	else
+		free_map(data);
+	ft_putstr_fd(err, 2);
+	exit(EXIT_FAILURE);
 }
 
-void free_and_exit(t_data *data, char *err)
+void	exitmlx(t_data *data, char *err, bool destroy)
 {
-	// if (!data->map.map || !data->map.map[0])
-	// {
-	// 	free(data->map.map);
-	// 	free(data->mlx.ptr);
-	// 	ft_printf(err);
-	// 	exit(EXIT_FAILURE);
-	// }
-	free_map(data);
-	free(data->mlx.ptr);
-	ft_printf(err);
-	exit(EXIT_FAILURE);
+	if (data->mlx.imgfloor)
+		mlx_destroy_image(data->mlx.ptr, data->mlx.imgfloor);
+	if (data->mlx.imgwall)
+		mlx_destroy_image(data->mlx.ptr, data->mlx.imgwall);
+	if (data->mlx.imgplayer)
+		mlx_destroy_image(data->mlx.ptr, data->mlx.imgplayer);
+	if (data->img.exitclose)
+		mlx_destroy_image(data->mlx.ptr, data->mlx.imgexitclose);
+	if (data->mlx.imgexitopen)
+		mlx_destroy_image(data->mlx.ptr, data->mlx.imgexitopen);
+	if (data->mlx.imgcollectible)
+		mlx_destroy_image(data->mlx.ptr, data->mlx.imgcollectible);
+	if (destroy)
+		mlx_destroy_window(data->mlx.ptr, data->mlx.win);
+	if (data->mlx.ptr)
+	{
+		mlx_destroy_display(data->mlx.ptr);
+		free(data->mlx.ptr);
+	}
+	free_and_exit(data, err);
 }
