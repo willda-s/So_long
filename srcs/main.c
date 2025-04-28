@@ -6,7 +6,7 @@
 /*   By: willda-s <willda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 17:18:31 by willda-s          #+#    #+#             */
-/*   Updated: 2025/04/25 16:02:24 by willda-s         ###   ########.fr       */
+/*   Updated: 2025/04/28 16:33:02 by willda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,6 @@ int	main(int ac, char **av)
 		data.map.collectibles = tmp;
 		main_mlx(&data);
 	}
-	else if (av[1] && !check_mapname(av[1]))
-		ft_putstr_fd("Error\nMap isn't a .ber", 2);
 	else
 		ft_putstr_fd("Error\nArguments is not valid", 2);
 	return (0);

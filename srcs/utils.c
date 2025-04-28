@@ -6,7 +6,7 @@
 /*   By: willda-s <willda-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:25:12 by willda-s          #+#    #+#             */
-/*   Updated: 2025/04/24 16:43:37 by willda-s         ###   ########.fr       */
+/*   Updated: 2025/04/26 16:58:56 by willda-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	free_and_exit(t_data *data, char *err)
 	else
 		free_map(data);
 	ft_putstr_fd(err, 2);
-	exit(EXIT_FAILURE);
+	exit(EXIT_SUCCESS);
 }
 
 void	exitmlx(t_data *data, char *err, bool destroy)
